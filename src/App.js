@@ -5,16 +5,17 @@ import TextField from '@material-ui/core/TextField';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import Card from '@material-ui/core/Card';
+import Map from 'pigeon-maps'
+import Marker from 'pigeon-marker'
 
 class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            originLat: 53.580748,
-            originLon: 10.0098,
-            destLat: 53.551324,
-            destLon: 9.986031,
-            estimate: null
+            origin: null,
+            dest: null,
+            estimate: null,
+            zoom: 13,
         };
     }
 
@@ -24,15 +25,28 @@ class App extends React.Component {
         this.setState(deltaObj);
     }
 
-    handleGetEstimate(originLat, originLon, destLat, destLon) {
+    handlePositionSelection(latLng) {
+        let position = {
+            lat: parseFloat(latLng[0].toFixed(6)),
+            lon: parseFloat(latLng[1].toFixed(6))
+        };
+
+        if (this.state.origin === null) {
+            this.setState({origin: position})
+        } else if(this.state.dest === null) {
+            this.setState({dest: position})
+        }
+    }
+
+    handleGetEstimate(origin, dest) {
         let data = {
             "origin": {
-                "lat": originLat,
-                "lon": originLon
+                "lat": origin.lat,
+                "lon": origin.lon
             },
             "destination": {
-                "lat": destLat,
-                "lon": destLon
+                "lat": dest.lat,
+                "lon": dest.lon
             }
         };
 
@@ -57,7 +71,7 @@ class App extends React.Component {
     }
 
     clearEstimate() {
-        this.setState({estimate: null});
+        this.setState({estimate: null, origin: null, dest: null});
     }
 
     renderEstimate() {
@@ -74,16 +88,28 @@ class App extends React.Component {
         );
     }
 
+    renderMap() {
+        const origin = this.state.origin && [this.state.origin.lat, this.state.origin.lon];
+        const destination = this.state.dest && [this.state.dest.lat, this.state.dest.lon];
+        const center = [53.567137,9.9948631];
+        return (
+            <Map center={center} zoom={12.67} height={400} onClick={(event) => this.handlePositionSelection(event.latLng)} >
+                {origin && <Marker anchor={origin} />}
+                {destination && <Marker anchor={destination} />}
+            </Map>
+        )
+    }
+
     render() {
         let isEstimate = this.state.estimate !== null;
         return (
             <div className="App">
-
                 <CssBaseline />
 
                 <Container maxWidth="sm">
 
                     <Card className="card">
+                        {this.renderMap()}
                         <form noValidate autoComplete="off">
                             <div>
                                 <TextField
@@ -92,8 +118,10 @@ class App extends React.Component {
                                     className="textField"
                                     margin="normal"
                                     type="number"
-                                    value={this.state.originLat}
-                                    onChange={event => this.handleChange("originLat", event)}
+                                    value={(this.state.origin && this.state.origin.lat) || ""}
+                                    InputProps={{
+                                        readOnly: true,
+                                    }}
                                 />
                                 <TextField
                                     id="origin-lon"
@@ -101,8 +129,10 @@ class App extends React.Component {
                                     className="textField"
                                     margin="normal"
                                     type="number"
-                                    value={this.state.originLon}
-                                    onChange={event => this.handleChange("originLon", event)}
+                                    value={(this.state.origin && this.state.origin.lon) || ""}
+                                    InputProps={{
+                                        readOnly: true,
+                                    }}
                                 />
                             </div>
                             <div>
@@ -112,8 +142,10 @@ class App extends React.Component {
                                     className="textField"
                                     margin="normal"
                                     type="number"
-                                    value={this.state.destLat}
-                                    onChange={event => this.handleChange("destLat", event)}
+                                    value={(this.state.dest && this.state.dest.lat) || ""}
+                                    InputProps={{
+                                        readOnly: true,
+                                    }}
                                 />
                                 <TextField
                                     id="dest-lon"
@@ -121,20 +153,27 @@ class App extends React.Component {
                                     className="textField"
                                     margin="normal"
                                     type="number"
-                                    value={this.state.destLon}
-                                    onChange={event => this.handleChange("destLon", event)}
+                                    value={(this.state.dest && this.state.dest.lon) || ""}
+                                    InputProps={{
+                                        readOnly: true,
+                                    }}
                                 />
                             </div>
                         </form>
                     </Card>
 
                     {!isEstimate &&
-                        <Button variant="contained" color="primary" onClick={event => this.handleGetEstimate(this.state.originLat, this.state.originLon, this.state.destLat, this.state.destLon)}>
+                        <Button variant="contained" color="primary" onClick={event => this.handleGetEstimate(this.state.origin, this.state.dest)}>
                             Get Estimate
                         </Button>
                     }
 
                     {isEstimate && this.renderEstimate()}
+                    {isEstimate &&
+                        <Button variant="contained" color="primary" onClick={event => this.clearEstimate()}>
+                            Reset
+                        </Button>
+                    }
 
                 </Container>
             </div>
