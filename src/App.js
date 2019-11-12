@@ -65,11 +65,11 @@ class App extends React.Component {
         return (
             <Card className="card">
                 <h2 id="simple-modal-title">Trip</h2>
-                <p id="simple-modal-description">
-                    <div>Price {this.state.estimate.price.amountMin} - {this.state.estimate.price.amountMax} {currency}</div>
-                    <div>ETA {this.state.estimate.etaMin} - {this.state.estimate.etaMax} Minutes</div>
+                <div id="simple-modal-description">
+                    <div>Price: {this.state.estimate.price.amountMin} - {this.state.estimate.price.amountMax} {currency}</div>
+                    <div>ETA: {this.state.estimate.etaMin} - {this.state.estimate.etaMax} Minutes</div>
                     <a href={this.state.estimate.deepLink}>Take me to MOIA</a>
-                </p>
+                </div>
             </Card>
         );
     }
