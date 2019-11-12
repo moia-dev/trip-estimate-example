@@ -5,6 +5,8 @@ import TextField from '@material-ui/core/TextField';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
 import Map from 'pigeon-maps'
 import Marker from 'pigeon-marker'
 
@@ -78,12 +80,12 @@ class App extends React.Component {
         let currency = this.state.estimate.price.currency;
         return (
             <Card className="card">
-                <h2 id="simple-modal-title">Trip</h2>
-                <div id="simple-modal-description">
-                    <div>Price: {this.state.estimate.price.amountMin} - {this.state.estimate.price.amountMax} {currency}</div>
-                    <div>ETA: {this.state.estimate.etaMin} - {this.state.estimate.etaMax} Minutes</div>
-                    <a href={this.state.estimate.deepLink}>Take me to MOIA</a>
-                </div>
+                <CardContent>
+                    <Typography className="trip-title" variant="h5" component="h2">Trip:</Typography>
+                    <Typography component="div">Price: {this.state.estimate.price.amountMin} - {this.state.estimate.price.amountMax} {currency}</Typography>
+                    <Typography component="div">ETA: {this.state.estimate.etaMin} - {this.state.estimate.etaMax} Minutes</Typography>
+                    <Typography component="a" href={this.state.estimate.deepLink}>Take me to MOIA</Typography>
+                </CardContent>
             </Card>
         );
     }
