@@ -2,6 +2,8 @@
 
 This is an examplary integration of the MOIA estimate and deep link feature into a react app.
 
+To test it in your browser go to: https://moia-dev.github.io/trip-estimate-example/
+
 ## Start application
 
 In the project directory, you can run:
