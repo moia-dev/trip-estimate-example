@@ -9,6 +9,8 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Map from 'pigeon-maps'
 import Marker from 'pigeon-marker'
+import 'github-fork-ribbon-css/gh-fork-ribbon.css'
+
 
 class App extends React.Component {
     constructor(props) {
@@ -106,6 +108,9 @@ class App extends React.Component {
         let isEstimate = this.state.estimate !== null;
         return (
             <div className="App">
+                <a className="github-fork-ribbon" href="https://github.com/moia-dev/trip-estimate-example" data-ribbon="Fork me on GitHub"
+                   title="Fork me on GitHub">Fork me on GitHub</a>
+
                 <CssBaseline />
 
                 <Container maxWidth="sm">
