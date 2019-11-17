@@ -55,9 +55,7 @@ class App extends React.Component {
         };
 
         fetch("https://api.moia.io/estimate", {
-            //mode: "no-cors",
             method: "POST",
-            mode: "no-cors",
             headers: {
                 "accept": "application/json",
                 "content-type": "application/json"
