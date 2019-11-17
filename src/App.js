@@ -54,13 +54,13 @@ class App extends React.Component {
             }
         };
 
-        fetch("https://trip-estimate.api.trip.prd.moia-group.io/estimate", {
+        fetch("https://api.moia.io/estimate", {
             //mode: "no-cors",
             method: "POST",
+            mode: "no-cors",
             headers: {
                 "accept": "application/json",
-                "content-type": "application/json",
-                "x-api-key": "qh2ki8YGx36cersQZpf245uDUxdERWjz8NSue7Cz"
+                "content-type": "application/json"
             },
             body: JSON.stringify(data)
         })
